@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#b51224">
+<title>Mein Fußballplan</title>
+<style>
+body{margin:0;background:#111318;color:white;font-family:Arial,sans-serif}
+header{background:#b51224;padding:24px 18px;border-bottom:4px solid white}
+h1{margin:0;font-size:26px}header p{margin-bottom:0}
+main{padding:16px;max-width:650px;margin:auto}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+button{border:0;border-radius:10px;padding:12px;background:#292d35;color:white;font-size:16px}
+button.active,.primary{background:#b51224;color:white}
+.card{background:#20242c;padding:16px;border-radius:14px;margin:12px 0}
+label{display:flex;gap:10px;align-items:flex-start;padding:12px 0;line-height:1.4}
+input{width:20px;height:20px;accent-color:#e51c35}
+small{color:#c7c9d0}
+progress{width:100%;height:18px;accent-color:#e51c35}
+</style>
+</head>
+<body>
+<header>
+<h1>⚽ Mein Fußballplan</h1>
+<p>Jeden Tag ein Schritt besser.</p>
+</header>
+<main>
+<div class="card">
+<strong>Dein Wochenfortschritt</strong>
+<p id="count">0 Übungen erledigt</p>
+<progress id="progress" value="0" max="1"></progress>
+</div>
+<nav id="days"></nav>
+<section id="plan"></section>
+<div class="card">
+<h3>🏆 Meine Ziele</h3>
+<p>Dribbling · Schnelligkeit · Passen</p>
+<p>Linker Fuß · Torschuss · Ballannahme</p>
+<small>Trainiere kontrolliert und mache Pausen, wenn du sie brauchst.</small>
+</div>
+</main>
+<script>
+const plans={
+Montag:["Ballgefühl und Dribbling","5 Min. locker aufwärmen","10 Min. Ball mit beiden Füßen führen","10 Min. Slalom um 4 Gegenstände","5 Min. Jonglieren"],
+Dienstag:["Vereinstraining","Ankommen und aufwärmen","Technik und Passspiel im Team","Zum Schluss locker auslaufen"],
+Mittwoch:["Erholung und Ballannahme","20 Min. lockerer Spaziergang oder Pause","10 Min. Ballannahme mit beiden Füßen, nur wenn du frisch bist"],
+Donnerstag:["Vereinstraining","Gut aufwärmen","Dribbling und Passspiel im Team","Auf Trainerhinweise achten"],
+Freitag:["Schusstechnik und linker Fuß","5 Min. aufwärmen","10 Min. Pässe mit links gegen eine Wand","10 Min. kontrollierte Schüsse, wenn Platz und Tor sicher sind","5 Min. lockeres Jonglieren"],
+Samstag:["Tempo und Ballkontrolle","5 Min. aufwärmen","6 kurze Antritte mit vollständiger Pause","10 Min. Ballannahme und erster Kontakt","10 Min. Dribbling mit Richtungswechseln"],
+Sonntag:["Ruhetag","Erholen und genug schlafen","Bei einem Spiel gilt der Spieltag als Belastung"]
+};
+let day="Montag";
+const days=document.getElementById("days");
+const plan=document.getElementById("plan");
+function render(){
+days.innerHTML="";
+Object.keys(plans).forEach(d=>{
+const b=document.createElement("button");
+b.textContent=d;b.className=d===day?"active":"";
+b.onclick=()=>{day=d;render()};
+days.appendChild(b);
+});
+plan.innerHTML="<h2>"+day+"</h2><p>"+plans[day][0]+"</p>";
+plans[day].slice(1).forEach((task,i)=>{
+const label=document.createElement("label");
+const cb=document.createElement("input");
+cb.type="checkbox";cb.checked=localStorage.getItem(day+"-"+i)==="1";
+cb.onchange=()=>{localStorage.setItem(day+"-"+i,cb.checked?"1":"0");update()};
+label.append(cb,document.createTextNode(task));plan.appendChild(label);
+});
+update();
+}
+function update(){
+let total=0,done=0;
+Object.keys(plans).forEach(d=>plans[d].slice(1).forEach((_,i)=>{
+total++;if(localStorage.getItem(d+"-"+i)==="1")done++;
+}));
+document.getElementById("count").textContent=done+" von "+total+" Übungen erledigt";
+document.getElementById("progress").max=total;
+document.getElementById("progress").value=done;
+}
+render();
+</script>
+</body>
+</html>
