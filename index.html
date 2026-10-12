@@ -42,15 +42,17 @@ progress{width:100%;height:18px;accent-color:#e51c35}
 </div>
 </main>
 <script>
+
 const plans={
-Montag:["Ballgefühl und Dribbling","5 Min. locker aufwärmen","10 Min. Ball mit beiden Füßen führen","10 Min. Slalom um 4 Gegenstände","5 Min. Jonglieren"],
-Dienstag:["Dienstag:["Individuelles Techniktraining","Ballannahme","Schwacher Fuß","Schießen"],"Ankommen und aufwärmen","Technik und Passspiel im Team","Zum Schluss locker auslaufen"],
-Mittwoch:["Mittwoch:["Vereinstraining",,"20 Min. lockerer Spaziergang oder Pause","10 Min. Ballannahme mit beiden Füßen, nur wenn du frisch bist"],
-Donnerstag:["Donnerstag:["Individuelles Techniktraining","Passspiel","Erste Ballannahme","Linker Fuß"]","Gut aufwärmen","Dribbling und Passspiel im Team","Auf Trainerhinweise achten"],
-Freitag:["Freitag:["Vereinstraining",,"5 Min. aufwärmen","10 Min. Pässe mit links gegen eine Wand","10 Min. kontrollierte Schüsse, wenn Platz und Tor sicher sind","5 Min. lockeres Jonglieren"],
-Samstag:["Tempo und Ballkontrolle","5 Min. aufwärmen","6 kurze Antritte mit vollständiger Pause","10 Min. Ballannahme und erster Kontakt","10 Min. Dribbling mit Richtungswechseln"],
-Sonntag:["Ruhetag","Erholen und genug schlafen","Bei einem Spiel gilt der Spieltag als Belastung"]
+  Montag:["Ballgefühl und Dribbling","5 Min. Aufwärmen","10 Min. Dribbling","10 Min. Pässe","5 Min. linker Fuß"],
+  Dienstag:["Individuelles Techniktraining","5 Min. Aufwärmen","10 Min. Ballannahme","10 Min. linker Fuß","10 Min. Dribbling"],
+  Mittwoch:["Vereinstraining","20 Min. locker aufwärmen","Vereinstraining vollständig absolvieren"],
+  Donnerstag:["Individuelles Techniktraining","5 Min. Aufwärmen","10 Min. Passübungen","10 Min. Torschüsse","5 Min. Ballannahme"],
+  Freitag:["Vereinstraining","5 Min. aufwärmen","Vereinstraining vollständig absolvieren"],
+  Samstag:["Tempo und Ballkontrolle","5 Min. Aufwärmen","10 Min. Tempodribbling","10 Min. Ballannahme","10 Min. Torschüsse"],
+  Sonntag:["Ruhetag","Erholen und genug schlafen"]
 };
+
 let day="Montag";
 const days=document.getElementById("days");
 const plan=document.getElementById("plan");
