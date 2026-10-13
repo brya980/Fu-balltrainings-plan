@@ -19,6 +19,74 @@ label{display:flex;gap:10px;align-items:flex-start;padding:12px 0;line-height:1.
 input{width:20px;height:20px;accent-color:#e51c35}
 small{color:#c7c9d0}
 progress{width:100%;height:18px;accent-color:#e51c35}
+/* Verbesserungen für das Fußball-App-Design */
+body {
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
+}
+
+header {
+  background: linear-gradient(135deg, #b51224, #750817);
+  box-shadow: 0 4px 18px #00000040;
+}
+
+nav {
+  margin-bottom: 18px;
+}
+
+button {
+  color: white;
+  background: #292d36;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button.active,
+button.primary {
+  background: #b51224;
+  box-shadow: 0 3px 10px #b5122450;
+}
+
+.card {
+  border: 1px solid #343944;
+  border-radius: 16px;
+  box-shadow: 0 5px 18px #00000020;
+}
+
+label {
+  padding: 12px;
+  margin: 8px 0;
+  background: #292d36;
+  border-radius: 10px;
+}
+
+label:has(input:checked) {
+  background: #20382d;
+}
+
+input[type="checkbox"] {
+  accent-color: #b51224;
+  flex-shrink: 0;
+}
+
+progress {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+progress::-webkit-progress-bar {
+  background: #292d36;
+}
+
+progress::-webkit-progress-value {
+  background: #b51224;
+}
+
+small {
+  line-height: 1.5;
+}
+
 </style>
 </head>
 <body>
