@@ -122,24 +122,93 @@ const plans={
 let day="Montag";
 const days=document.getElementById("days");
 const plan=document.getElementById("plan");
+
 function render(){
-days.innerHTML="";
-Object.keys(plans).forEach(d=>{
-const b=document.createElement("button");
-b.textContent=d;b.className=d===day?"active":"";
-b.onclick=()=>{day=d;render()};
-days.appendChild(b);
-});
-plan.innerHTML="<h2>"+day+"</h2><p>"+plans[day][0]+"</p>";
-plans[day].slice(1).forEach((task,i)=>{
-const label=document.createElement("label");
-const cb=document.createElement("input");
-cb.type="checkbox";cb.checked=localStorage.getItem(day+"-"+i)==="1";
-cb.onchange=()=>{localStorage.setItem(day+"-"+i,cb.checked?"1":"0");update()};
-label.append(cb,document.createTextNode(task));plan.appendChild(label);
-});
-update();
+  days.innerHTML="";
+  Object.keys(plans).forEach(d=>{
+    const b=document.createElement("button");
+    b.textContent=d;
+    b.className=d===day?"active":"";
+    b.onclick=()=>{day=d;render()};
+    days.appendChild(b);
+  });
+
+  plan.innerHTML="<h2>"+day+"</h2><p>"+plans[day][0]+"</p>";
+
+  plans[day].slice(1).forEach((task,i)=>{
+    const item=document.createElement("div");
+    item.className="card";
+
+    const label=document.createElement("label");
+    const cb=document.createElement("input");
+    cb.type="checkbox";
+    cb.checked=localStorage.getItem(day+"-"+i)==="1";
+    cb.onchange=()=>{
+      localStorage.setItem(day+"-"+i,cb.checked?"1":"0");
+      update();
+    };
+
+    label.append(cb,document.createTextNode(task));
+    item.appendChild(label);
+
+    const btn=document.createElement("button");
+    btn.textContent="Anleitung anzeigen";
+    btn.onclick=()=>{
+      const info=item.querySelector(".anleitung");
+      if(info){
+        info.remove();
+        btn.textContent="Anleitung anzeigen";
+      }else{
+        const details=document.createElement("p");
+        details.className="anleitung";
+        details.textContent=getAnleitung(task);
+        item.appendChild(details);
+        btn.textContent="Anleitung schließen";
+      }
+    };
+
+    item.appendChild(btn);
+    plan.appendChild(item);
+  });
+
+  update();
 }
+
+function getAnleitung(task){
+  const anleitungen={
+    "5 Min. Aufwärmen":
+      "Laufe locker, bewege Arme und Beine und mache leichte Richtungswechsel. Steigere das Tempo langsam.",
+    "10 Min. Dribbling":
+      "Führe den Ball mit beiden Füßen eng am Körper. Schaue regelmäßig nach vorne und wechsle die Richtung.",
+    "10 Min. Pässe":
+      "Spiele präzise Pässe gegen eine Wand oder mit einem Partner. Nutze beide Füße und kontrolliere den Rückpass.",
+    "5 Min. linker Fuß":
+      "Spiele ruhige, kurze Pässe mit links. Achte auf Genauigkeit und eine saubere Fußstellung.",
+    "10 Min. Ballannahme":
+      "Spiele den Ball gegen eine Wand oder lass ihn dir zuspielen. Nimm ihn weich an und lege ihn in die nächste Spielrichtung.",
+    "10 Min. Dribbling":
+      "Führe den Ball eng am Fuß und ändere regelmäßig Richtung und Tempo.",
+    "10 Min. Passübungen":
+      "Übe kurze und mittlere Pässe. Richte deinen Standfuß zum Ziel und spiele kontrolliert.",
+    "10 Min. Torschüsse":
+      "Schieße auf ein sicheres Ziel oder ein Tor. Beginne aus kurzer Entfernung und achte auf saubere Technik.",
+    "5 Min. Ballannahme":
+      "Kontrolliere den Ball mit der Innenseite oder der Sohle und spiele ihn anschließend gezielt weiter.",
+    "20 Min. locker aufwärmen":
+      "Wärme dich mit lockerem Laufen, Mobilisation und leichten Ballübungen auf. Folge anschließend den Anweisungen deines Trainers.",
+    "Vereinstraining vollständig absolvieren":
+      "Höre deinem Trainer zu, arbeite konzentriert mit und trinke bei Bedarf Wasser.",
+    "5 Min. aufwärmen":
+      "Laufe locker an, bewege deine Gelenke und mache einige leichte Ballkontakte.",
+    "10 Min. Tempodribbling":
+      "Dribble kontrolliert zwischen Markierungen. Beschleunige auf kurzen Strecken und behalte den Ball unter Kontrolle.",
+    "Erholen und genug schlafen":
+      "Gönne deinem Körper eine Pause, trinke ausreichend und achte auf genügend Schlaf."
+  };
+
+  return anleitungen[task] || "Führe die Übung kontrolliert durch. Achte auf eine saubere Technik und mache bei Bedarf eine Pause.";
+}
+
 function update(){
 let total=0,done=0;
 Object.keys(plans).forEach(d=>plans[d].slice(1).forEach((_,i)=>{
