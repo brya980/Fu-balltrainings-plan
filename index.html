@@ -217,13 +217,35 @@ function getAnleitung(task){
 }
 
 function update(){
-let total=0,done=0;
-Object.keys(plans).forEach(d=>plans[d].slice(1).forEach((_,i)=>{
-total++;if(localStorage.getItem(d+"-"+i)==="1")done++;
-}));
-document.getElementById("count").textContent=done+" von "+total+" Übungen erledigt";
-document.getElementById("progress").max=total;
-document.getElementById("progress").value=done;
+  let total=0,done=0;
+
+  Object.keys(plans).forEach(d=>{
+    plans[d].slice(1).forEach((_,i)=>{
+      total++;
+      if(localStorage.getItem(d+"-"+i)==="1") done++;
+    });
+  });
+
+  document.getElementById("count").textContent=
+    done+" von "+total+" Übungen erledigt";
+
+  document.getElementById("progress").max=total;
+  document.getElementById("progress").value=done;
+
+  const xp=done*10;
+  const level=Math.floor(xp/100)+1;
+  const levelXp=xp%100;
+
+  document.getElementById("xp").textContent=xp+" XP";
+  document.getElementById("level").textContent=
+    "Level "+level+" – "+
+    (level===1?"Nachwuchsspieler":
+     level===2?"Amateur":
+     level===3?"Fortgeschrittener":"Fußballtalent");
+
+  document.getElementById("levelProgress").value=levelXp;
+  document.getElementById("xpNext").textContent=
+    (100-levelXp)+" XP bis zum nächsten Level";
 }
 render();
 </script>
