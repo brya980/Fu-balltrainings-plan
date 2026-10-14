@@ -239,6 +239,20 @@ function render(){
     };
 
     item.appendChild(btn);
+   
+    const videoBtn=document.createElement("button");
+    videoBtn.textContent="▶ Video ansehen";
+    videoBtn.onclick=()=>{
+      const query=encodeURIComponent(
+        "Fußballtraining "+task+" Übung Tutorial"
+      );
+      window.open(
+        "https://www.youtube.com/results?search_query="+query,
+        "_blank"
+      );
+    };
+    item.appendChild(videoBtn);
+
     plan.appendChild(item);
   });
 
