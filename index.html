@@ -118,7 +118,9 @@ small {
 </div>
 </main>
 <script>
-const plans={
+
+const weeklyPlans = [
+{
   Montag:["Ballgefühl und Dribbling","5 Min. Aufwärmen","10 Min. Dribbling","10 Min. Pässe","5 Min. linker Fuß"],
   Dienstag:["Individuelles Techniktraining","5 Min. Aufwärmen","10 Min. Ballannahme","10 Min. linker Fuß","10 Min. Dribbling"],
   Mittwoch:["Vereinstraining","20 Min. locker aufwärmen","Vereinstraining vollständig absolvieren"],
@@ -126,10 +128,59 @@ const plans={
   Freitag:["Vereinstraining","5 Min. aufwärmen","Vereinstraining vollständig absolvieren"],
   Samstag:["Tempo und Ballkontrolle","5 Min. Aufwärmen","10 Min. Tempodribbling","10 Min. Ballannahme","10 Min. Torschüsse"],
   Sonntag:["Ruhetag","Erholen und genug schlafen"]
-};
+},
+{
+  Montag:["Dribbling und Wendigkeit","5 Min. Aufwärmen","10 Min. Slalomdribbling","10 Min. Richtungswechsel","5 Min. linker Fuß"],
+  Dienstag:["Ballannahme und Passen","5 Min. Aufwärmen","10 Min. erster Kontakt","10 Min. Wandpässe","10 Min. linker Fuß"],
+  Mittwoch:["Vereinstraining","20 Min. locker aufwärmen","Vereinstraining vollständig absolvieren"],
+  Donnerstag:["Schusstechnik","5 Min. Aufwärmen","10 Min. Schussgenauigkeit","10 Min. Ballannahme","5 Min. Passübungen"],
+  Freitag:["Vereinstraining","5 Min. aufwärmen","Vereinstraining vollständig absolvieren"],
+  Samstag:["Tempo und Technik","5 Min. Aufwärmen","10 Min. Tempodribbling","10 Min. Passübungen","10 Min. Ballkontrolle"],
+  Sonntag:["Ruhetag","Erholen und genug schlafen"]
+},
+{
+  Montag:["Ballkontrolle und linker Fuß","5 Min. Aufwärmen","10 Min. Ballgefühl","10 Min. linke Fußpässe","5 Min. Jonglieren"],
+  Dienstag:["Passen und erster Kontakt","5 Min. Aufwärmen","10 Min. Wandpässe","10 Min. Ballannahme","10 Min. Dribbling"],
+  Mittwoch:["Vereinstraining","20 Min. locker aufwärmen","Vereinstraining vollständig absolvieren"],
+  Donnerstag:["Dribbling und Torschuss","5 Min. Aufwärmen","10 Min. Dribbling","10 Min. Schussgenauigkeit","5 Min. linker Fuß"],
+  Freitag:["Vereinstraining","5 Min. aufwärmen","Vereinstraining vollständig absolvieren"],
+  Samstag:["Technik-Mix","5 Min. Aufwärmen","10 Min. Tempodribbling","10 Min. Ballannahme","10 Min. Passübungen"],
+  Sonntag:["Ruhetag","Erholen und genug schlafen"]
+}
+];
+
+function getWeekKey(date=new Date()){
+  const d=new Date(Date.UTC(
+    date.getFullYear(),date.getMonth(),date.getDate()
+  ));
+  d.setUTCDate(d.getUTCDate()+4-(d.getUTCDay()||7));
+  const year=d.getUTCFullYear();
+  const start=new Date(Date.UTC(year,0,1));
+  const week=Math.ceil((((d-start)/86400000)+1)/7);
+  return year+"-W"+week;
+}
+
+const weekKey=getWeekKey();
+const weekNumber=Number(weekKey.split("-W")[1]);
+const plans=weeklyPlans[(weekNumber-1)%weeklyPlans.length];
+
 let day="Montag";
 const days=document.getElementById("days");
 const plan=document.getElementById("plan");
+
+const doneKey=(d,i)=>"football_done_"+weekKey+"_"+d+"-"+i;
+const earnedKey=(d,i)=>"football_earned_"+weekKey+"_"+d+"-"+i;
+const xpKey="football_total_xp";
+
+if(localStorage.getItem(xpKey)===null){
+  let oldDone=0;
+  Object.keys(plans).forEach(d=>{
+    plans[d].slice(1).forEach((_,i)=>{
+      if(localStorage.getItem(d+"-"+i)==="1") oldDone++;
+    });
+  });
+  localStorage.setItem(xpKey,String(oldDone*10));
+}
 
 function render(){
   days.innerHTML="";
@@ -141,7 +192,8 @@ function render(){
     days.appendChild(b);
   });
 
-  plan.innerHTML="<h2>"+day+"</h2><p>"+plans[day][0]+"</p>";
+  plan.innerHTML="<h2>"+day+"</h2><p>"+
+    plans[day][0]+"</p>";
 
   plans[day].slice(1).forEach((task,i)=>{
     const item=document.createElement("div");
@@ -150,9 +202,20 @@ function render(){
     const label=document.createElement("label");
     const cb=document.createElement("input");
     cb.type="checkbox";
-    cb.checked=localStorage.getItem(day+"-"+i)==="1";
+    cb.checked=localStorage.getItem(doneKey(day,i))==="1";
+
     cb.onchange=()=>{
-      localStorage.setItem(day+"-"+i,cb.checked?"1":"0");
+      if(cb.checked){
+        localStorage.setItem(doneKey(day,i),"1");
+
+        if(localStorage.getItem(earnedKey(day,i))!=="1"){
+          const xp=Number(localStorage.getItem(xpKey)||0);
+          localStorage.setItem(xpKey,String(xp+10));
+          localStorage.setItem(earnedKey(day,i),"1");
+        }
+      }else{
+        localStorage.removeItem(doneKey(day,i));
+      }
       update();
     };
 
@@ -184,37 +247,33 @@ function render(){
 
 function getAnleitung(task){
   const anleitungen={
-    "5 Min. Aufwärmen":
-      "Laufe locker, bewege Arme und Beine und mache leichte Richtungswechsel. Steigere das Tempo langsam.",
-    "10 Min. Dribbling":
-      "Führe den Ball mit beiden Füßen eng am Körper. Schaue regelmäßig nach vorne und wechsle die Richtung.",
-    "10 Min. Pässe":
-      "Spiele präzise Pässe gegen eine Wand oder mit einem Partner. Nutze beide Füße und kontrolliere den Rückpass.",
-    "5 Min. linker Fuß":
-      "Spiele ruhige, kurze Pässe mit links. Achte auf Genauigkeit und eine saubere Fußstellung.",
-    "10 Min. Ballannahme":
-      "Spiele den Ball gegen eine Wand oder lass ihn dir zuspielen. Nimm ihn weich an und lege ihn in die nächste Spielrichtung.",
-    "10 Min. Dribbling":
-      "Führe den Ball eng am Fuß und ändere regelmäßig Richtung und Tempo.",
-    "10 Min. Passübungen":
-      "Übe kurze und mittlere Pässe. Richte deinen Standfuß zum Ziel und spiele kontrolliert.",
-    "10 Min. Torschüsse":
-      "Schieße auf ein sicheres Ziel oder ein Tor. Beginne aus kurzer Entfernung und achte auf saubere Technik.",
-    "5 Min. Ballannahme":
-      "Kontrolliere den Ball mit der Innenseite oder der Sohle und spiele ihn anschließend gezielt weiter.",
-    "20 Min. locker aufwärmen":
-      "Wärme dich mit lockerem Laufen, Mobilisation und leichten Ballübungen auf. Folge anschließend den Anweisungen deines Trainers.",
-    "Vereinstraining vollständig absolvieren":
-      "Höre deinem Trainer zu, arbeite konzentriert mit und trinke bei Bedarf Wasser.",
-    "5 Min. aufwärmen":
-      "Laufe locker an, bewege deine Gelenke und mache einige leichte Ballkontakte.",
-    "10 Min. Tempodribbling":
-      "Dribble kontrolliert zwischen Markierungen. Beschleunige auf kurzen Strecken und behalte den Ball unter Kontrolle.",
-    "Erholen und genug schlafen":
-      "Gönne deinem Körper eine Pause, trinke ausreichend und achte auf genügend Schlaf."
+    "5 Min. Aufwärmen":"Laufe locker, bewege Arme und Beine und mache leichte Richtungswechsel.",
+    "10 Min. Dribbling":"Führe den Ball eng am Fuß, schaue regelmäßig nach vorne und wechsle die Richtung.",
+    "10 Min. Pässe":"Spiele präzise Pässe gegen eine Wand oder mit einem Partner.",
+    "5 Min. linker Fuß":"Spiele ruhige, kurze Pässe mit links und achte auf Genauigkeit.",
+    "10 Min. Ballannahme":"Nimm den Ball weich an und lege ihn in die nächste Spielrichtung.",
+    "10 Min. Passübungen":"Übe kontrollierte kurze und mittlere Pässe.",
+    "10 Min. Torschüsse":"Übe Schussgenauigkeit aus kurzer Entfernung auf ein sicheres Ziel.",
+    "20 Min. locker aufwärmen":"Wärme dich mit lockerem Laufen, Mobilisation und leichten Ballübungen auf.",
+    "Vereinstraining vollständig absolvieren":"Höre deinem Trainer zu und arbeite konzentriert mit.",
+    "5 Min. aufwärmen":"Laufe locker an und mache leichte Ballübungen.",
+    "10 Min. Tempodribbling":"Dribble kontrolliert zwischen Markierungen und steigere das Tempo vorsichtig.",
+    "Erholen und genug schlafen":"Gönne deinem Körper Erholung und achte auf genügend Schlaf.",
+    "10 Min. Slalomdribbling":"Dribble in kontrollierten Kurven um Markierungen.",
+    "10 Min. Richtungswechsel":"Wechsle beim Dribbling regelmäßig kontrolliert die Richtung.",
+    "10 Min. erster Kontakt":"Nimm Zuspiele weich an und spiele den Ball gezielt weiter.",
+    "10 Min. Wandpässe":"Spiele Pässe gegen eine Wand und kontrolliere den Rückpass.",
+    "10 Min. Schussgenauigkeit":"Ziele auf ein sicheres Ziel und konzentriere dich auf die Technik.",
+    "10 Min. Ballkontrolle":"Halte den Ball nah am Fuß und kontrolliere jeden Kontakt.",
+    "5 Min. Passübungen":"Spiele einige präzise Pässe mit beiden Füßen.",
+    "10 Min. Ballgefühl":"Übe lockere Ballkontakte mit beiden Füßen.",
+    "10 Min. linke Fußpässe":"Spiele kurze, kontrollierte Pässe mit links.",
+    "5 Min. Jonglieren":"Versuche, den Ball mit kleinen Kontakten in der Luft zu halten.",
+    "10 Min. Dribbling":"Dribble kontrolliert und schaue regelmäßig nach vorne.",
+    "10 Min. Ballannahme":"Übe den ersten Kontakt und die anschließende Ballkontrolle."
   };
-
-  return anleitungen[task] || "Führe die Übung kontrolliert durch. Achte auf eine saubere Technik und mache bei Bedarf eine Pause.";
+  return anleitungen[task]||
+    "Übe kontrolliert, achte auf eine saubere Technik und mache bei Bedarf eine Pause.";
 }
 
 function update(){
@@ -223,17 +282,16 @@ function update(){
   Object.keys(plans).forEach(d=>{
     plans[d].slice(1).forEach((_,i)=>{
       total++;
-      if(localStorage.getItem(d+"-"+i)==="1") done++;
+      if(localStorage.getItem(doneKey(d,i))==="1") done++;
     });
   });
 
   document.getElementById("count").textContent=
     done+" von "+total+" Übungen erledigt";
-
   document.getElementById("progress").max=total;
   document.getElementById("progress").value=done;
 
-  const xp=done*10;
+  const xp=Number(localStorage.getItem(xpKey)||0);
   const level=Math.floor(xp/100)+1;
   const levelXp=xp%100;
 
@@ -243,12 +301,13 @@ function update(){
     (level===1?"Nachwuchsspieler":
      level===2?"Amateur":
      level===3?"Fortgeschrittener":"Fußballtalent");
-
   document.getElementById("levelProgress").value=levelXp;
   document.getElementById("xpNext").textContent=
     (100-levelXp)+" XP bis zum nächsten Level";
 }
+
 render();
+
 </script>
 </body>
 </html>
