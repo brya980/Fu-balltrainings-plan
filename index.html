@@ -290,6 +290,43 @@ function getAnleitung(task){
     "Übe kontrolliert, achte auf eine saubere Technik und mache bei Bedarf eine Pause.";
 }
 
+function updateStreak(){
+  const today = new Date();
+  const todayKey = today.getFullYear() + "-" +
+    String(today.getMonth()+1).padStart(2,"0") + "-" +
+    String(today.getDate()).padStart(2,"0");
+
+  const lastDay = localStorage.getItem("streakLastDay");
+  let streak = Number(localStorage.getItem("streakCount")) || 0;
+  let best = Number(localStorage.getItem("streakBest")) || 0;
+
+  if(lastDay !== todayKey){
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate()-1);
+
+    const yesterdayKey = yesterday.getFullYear() + "-" +
+      String(yesterday.getMonth()+1).padStart(2,"0") + "-" +
+      String(yesterday.getDate()).padStart(2,"0");
+
+    if(lastDay === yesterdayKey){
+      streak++;
+    } else {
+      streak = 1;
+    }
+
+    localStorage.setItem("streakLastDay", todayKey);
+    localStorage.setItem("streakCount", streak);
+    best = Math.max(best, streak);
+    localStorage.setItem("streakBest", best);
+  }
+
+  const display = document.getElementById("streak");
+  if(display){
+    display.textContent = "🔥 Streak: " + streak +
+      " Tage | 🏆 Rekord: " + best + " Tage";
+  }
+}
+
 function update(){
   let total=0,done=0;
 
