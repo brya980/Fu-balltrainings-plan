@@ -212,6 +212,11 @@ function render(){
           const xp=Number(localStorage.getItem(xpKey)||0);
           localStorage.setItem(xpKey,String(xp+10));
           localStorage.setItem(earnedKey(day,i),"1");
+          const now = new Date();
+const todayKey = now.getFullYear() + "-" +
+  String(now.getMonth()+1).padStart(2,"0") + "-" +
+  String(now.getDate()).padStart(2,"0");
+localStorage.setItem("streakActivityDay", todayKey);
         }
       }else{
         localStorage.removeItem(doneKey(day,i));
@@ -355,6 +360,7 @@ function update(){
   document.getElementById("levelProgress").value=levelXp;
   document.getElementById("xpNext").textContent=
     (100-levelXp)+" XP bis zum nächsten Level";
+ updateStreak();
 }
 
 render();
