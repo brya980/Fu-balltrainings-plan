@@ -90,6 +90,23 @@ small {
 </style>
 </head>
 <body>
+ <section id="routine" class="card">
+  <h2>🌅 Morgenroutine</h2>
+  <label><input type="checkbox"> Bett machen</label><br>
+  <label><input type="checkbox"> Wasser trinken</label><br>
+  <label><input type="checkbox"> 3 Minuten mobilisieren</label><br>
+  <label><input type="checkbox"> Tagesziel setzen</label><br>
+  <label><input type="checkbox"> Frühstücken</label>
+</section>
+
+<section id="after-school" class="card">
+  <h2>⚽ Nach der Schule</h2>
+  <label><input type="checkbox"> Wasser trinken und Snack essen</label><br>
+  <label><input type="checkbox"> Hausaufgaben erledigen</label><br>
+  <label><input type="checkbox"> Fußballtraining absolvieren</label><br>
+  <label><input type="checkbox"> Duschen und erholen</label><br>
+  <label><input type="checkbox"> Schulsachen vorbereiten</label>
+</section>
 <header>
 <h1>⚽ Mein Fußballplan</h1>
 <p>Jeden Tag ein Schritt besser.</p>
@@ -118,7 +135,15 @@ small {
 </div>
 </main>
 <script>
+document.querySelectorAll("#routine input[type='checkbox'], #after-school input[type='checkbox']").forEach((cb, i) => {
+  const key = "routine_checkbox_" + i;
 
+  cb.checked = localStorage.getItem(key) === "1";
+
+  cb.addEventListener("change", () => {
+    localStorage.setItem(key, cb.checked ? "1" : "0");
+  });
+});
 const weeklyPlans = [
 {
   Montag:["Ballgefühl und Dribbling","5 Min. Aufwärmen","10 Min. Dribbling","10 Min. Pässe","5 Min. linker Fuß"],
