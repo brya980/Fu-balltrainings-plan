@@ -287,35 +287,212 @@ localStorage.setItem("streakActivityDay", todayKey);
   update();
 }
 
-function getAnleitung(task){
-  const anleitungen={
-    "5 Min. Aufwärmen":"Laufe locker, bewege Arme und Beine und mache leichte Richtungswechsel.",
-    "10 Min. Dribbling":"Führe den Ball eng am Fuß, schaue regelmäßig nach vorne und wechsle die Richtung.",
-    "10 Min. Pässe":"Spiele präzise Pässe gegen eine Wand oder mit einem Partner.",
-    "5 Min. linker Fuß":"Spiele ruhige, kurze Pässe mit links und achte auf Genauigkeit.",
-    "10 Min. Ballannahme":"Nimm den Ball weich an und lege ihn in die nächste Spielrichtung.",
-    "10 Min. Passübungen":"Übe kontrollierte kurze und mittlere Pässe.",
-    "10 Min. Torschüsse":"Übe Schussgenauigkeit aus kurzer Entfernung auf ein sicheres Ziel.",
-    "20 Min. locker aufwärmen":"Wärme dich mit lockerem Laufen, Mobilisation und leichten Ballübungen auf.",
-    "Vereinstraining vollständig absolvieren":"Höre deinem Trainer zu und arbeite konzentriert mit.",
-    "5 Min. aufwärmen":"Laufe locker an und mache leichte Ballübungen.",
-    "10 Min. Tempodribbling":"Dribble kontrolliert zwischen Markierungen und steigere das Tempo vorsichtig.",
-    "Erholen und genug schlafen":"Gönne deinem Körper Erholung und achte auf genügend Schlaf.",
-    "10 Min. Slalomdribbling":"Dribble in kontrollierten Kurven um Markierungen.",
-    "10 Min. Richtungswechsel":"Wechsle beim Dribbling regelmäßig kontrolliert die Richtung.",
-    "10 Min. erster Kontakt":"Nimm Zuspiele weich an und spiele den Ball gezielt weiter.",
-    "10 Min. Wandpässe":"Spiele Pässe gegen eine Wand und kontrolliere den Rückpass.",
-    "10 Min. Schussgenauigkeit":"Ziele auf ein sicheres Ziel und konzentriere dich auf die Technik.",
-    "10 Min. Ballkontrolle":"Halte den Ball nah am Fuß und kontrolliere jeden Kontakt.",
-    "5 Min. Passübungen":"Spiele einige präzise Pässe mit beiden Füßen.",
-    "10 Min. Ballgefühl":"Übe lockere Ballkontakte mit beiden Füßen.",
-    "10 Min. linke Fußpässe":"Spiele kurze, kontrollierte Pässe mit links.",
-    "5 Min. Jonglieren":"Versuche, den Ball mit kleinen Kontakten in der Luft zu halten.",
-    "10 Min. Dribbling":"Dribble kontrolliert und schaue regelmäßig nach vorne.",
-    "10 Min. Ballannahme":"Übe den ersten Kontakt und die anschließende Ballkontrolle."
+function getAnleitung(task) {
+  const anleitungen = {
+    "5 Min. Aufwärmen": [
+      "1. Laufe 1 Minute locker.",
+      "2. Kreise deine Arme und bewege deine Schultern.",
+      "3. Hebe abwechselnd deine Knie.",
+      "4. Mache leichte seitliche Schritte.",
+      "5. Beginne danach langsam mit Ballübungen."
+    ],
+
+    "10 Min. Dribbling": [
+      "1. Lege den Ball vor deinen Fuß.",
+      "2. Tippe den Ball mit der Innenseite an.",
+      "3. Tippe ihn anschließend mit der Außenseite an.",
+      "4. Halte den Ball nah am Fuß.",
+      "5. Schaue regelmäßig nach vorne.",
+      "6. Wechsle die Richtung und steigere langsam dein Tempo."
+    ],
+
+    "10 Min. Pässe": [
+      "1. Stelle dich etwa 3–5 Meter vor eine Wand.",
+      "2. Stelle deinen Standfuß neben den Ball.",
+      "3. Drehe deinen Passfuß leicht nach außen.",
+      "4. Spiele den Ball mit der Innenseite gegen die Wand.",
+      "5. Nimm den Rückpass kontrolliert an.",
+      "6. Wiederhole die Übung mit beiden Füßen."
+    ],
+
+    "5 Min. linker Fuß": [
+      "1. Lege den Ball vor deinen linken Fuß.",
+      "2. Stelle deinen rechten Fuß neben den Ball.",
+      "3. Drehe deinen linken Fuß leicht nach außen.",
+      "4. Spiele einen kurzen Pass mit der linken Innenseite.",
+      "5. Achte auf Genauigkeit statt Kraft.",
+      "6. Wiederhole die Übung in deinem eigenen Tempo."
+    ],
+
+    "10 Min. Ballannahme": [
+      "1. Spiele den Ball gegen eine Wand.",
+      "2. Beobachte den zurückkommenden Ball.",
+      "3. Gehe ihm leicht entgegen.",
+      "4. Nimm ihn mit der Innen- oder Außenseite weich an.",
+      "5. Lege den Ball mit dem ersten Kontakt in eine freie Richtung.",
+      "6. Spiele anschließend einen Pass oder dribble weiter."
+    ],
+
+    "10 Min. Passübungen": [
+      "1. Suche dir eine Wand oder einen Trainingspartner.",
+      "2. Ziele auf einen festen Punkt.",
+      "3. Spiele einen kontrollierten Pass.",
+      "4. Nimm den Rückpass mit dem ersten Kontakt an.",
+      "5. Spiele den nächsten Pass mit dem anderen Fuß.",
+      "6. Achte auf Präzision und einen guten ersten Kontakt."
+    ],
+
+    "10 Min. Torschüsse": [
+      "1. Stelle ein kleines Tor oder ein sicheres Ziel auf.",
+      "2. Beginne mit etwa 5 Metern Abstand.",
+      "3. Laufe kontrolliert auf den Ball zu.",
+      "4. Stelle deinen Standfuß neben den Ball.",
+      "5. Triff den Ball für einen platzierten Schuss mit der Innenseite.",
+      "6. Ziele auf verschiedene freie Bereiche.",
+      "7. Hole den Ball zurück und wiederhole die Übung."
+    ],
+
+    "20 Min. locker aufwärmen": [
+      "1. Laufe 3–5 Minuten locker.",
+      "2. Bewege deine Sprunggelenke, Knie und Hüften sanft.",
+      "3. Mache leichte seitliche Schritte.",
+      "4. Dribble langsam mit beiden Füßen.",
+      "5. Spiele kurze, kontrollierte Pässe.",
+      "6. Steigere die Intensität langsam."
+    ],
+
+    "Vereinstraining vollständig absolvieren": [
+      "1. Sei rechtzeitig am Trainingsplatz.",
+      "2. Höre bei Erklärungen aufmerksam zu.",
+      "3. Führe die Übungen konzentriert aus.",
+      "4. Versuche, auch deinen schwächeren Fuß einzusetzen.",
+      "5. Kommuniziere mit deinen Mitspielern.",
+      "6. Frage den Trainer, wenn du etwas nicht verstehst."
+    ],
+
+    "5 Min. aufwärmen": [
+      "1. Laufe locker an.",
+      "2. Bewege deine Arme und Beine.",
+      "3. Mache leichte seitliche Schritte.",
+      "4. Führe den Ball langsam mit beiden Füßen.",
+      "5. Steigere das Tempo nur schrittweise."
+    ],
+
+    "10 Min. Tempodribbling": [
+      "1. Stelle 4 Markierungen mit genügend Abstand auf.",
+      "2. Dribble kontrolliert zur ersten Markierung.",
+      "3. Beschleunige auf dem freien Abschnitt.",
+      "4. Halte den Ball bei jedem Kontakt unter Kontrolle.",
+      "5. Bremse vor der nächsten Markierung ab.",
+      "6. Wechsle die Richtung und wiederhole den Durchgang.",
+      "7. Steigere das Tempo nur, solange deine Technik sauber bleibt."
+    ],
+
+    "Erholen und genug schlafen": [
+      "1. Gönne deinem Körper einen trainingsfreien Tag.",
+      "2. Trinke regelmäßig Wasser.",
+      "3. Iss ausreichend und ausgewogen.",
+      "4. Entspanne dich und erhole deine Beine.",
+      "5. Plane genügend Schlaf ein."
+    ],
+
+    "10 Min. Slalomdribbling": [
+      "1. Stelle 5 Markierungen in einer Reihe auf.",
+      "2. Dribble langsam auf die erste Markierung zu.",
+      "3. Führe den Ball mit der Innen- und Außenseite herum.",
+      "4. Wechsle bei jeder Markierung die Richtung.",
+      "5. Halte den Ball nah am Fuß.",
+      "6. Dribble am Ende zurück und beginne erneut."
+    ],
+
+    "10 Min. Richtungswechsel": [
+      "1. Dribble geradeaus mit kontrollierten Kontakten.",
+      "2. Setze den Fuß neben oder an den Ball.",
+      "3. Ziehe oder schiebe den Ball in eine neue Richtung.",
+      "4. Beschleunige nach dem Richtungswechsel leicht.",
+      "5. Wiederhole die Bewegung mit beiden Füßen.",
+      "6. Achte darauf, das Gleichgewicht zu halten."
+    ],
+
+    "10 Min. erster Kontakt": [
+      "1. Spiele den Ball gegen eine Wand oder lass ihn dir zuspielen.",
+      "2. Beobachte die Flug- oder Laufrichtung des Balls.",
+      "3. Stelle dich so hin, dass du den Ball gut erreichen kannst.",
+      "4. Nimm den Ball weich mit der Innen- oder Außenseite an.",
+      "5. Spiele ihn mit dem ersten Kontakt in eine freie Richtung.",
+      "6. Wiederhole die Übung mit beiden Füßen."
+    ],
+
+    "10 Min. Wandpässe": [
+      "1. Stelle dich 3–5 Meter vor eine Wand.",
+      "2. Spiele einen Pass mit der Innenseite.",
+      "3. Warte auf den Rückpass.",
+      "4. Nimm den Ball kontrolliert an.",
+      "5. Spiele ihn wieder zurück.",
+      "6. Übe auch mit deinem schwächeren Fuß."
+    ],
+
+    "10 Min. Schussgenauigkeit": [
+      "1. Markiere ein sicheres Ziel in einem Tor.",
+      "2. Lege den Ball in kurzer Entfernung bereit.",
+      "3. Laufe kontrolliert an.",
+      "4. Stelle den Standfuß neben den Ball.",
+      "5. Schieße mit der Innenseite auf das Ziel.",
+      "6. Verändere die Zielrichtung nach einigen Versuchen.",
+      "7. Achte auf Genauigkeit statt auf maximale Kraft."
+    ],
+
+    "10 Min. Ballkontrolle": [
+      "1. Beginne mit dem Ball direkt vor deinen Füßen.",
+      "2. Tippe ihn leicht mit der Innenseite an.",
+      "3. Führe ihn mit der Außenseite zurück.",
+      "4. Wechsle zwischen rechtem und linkem Fuß.",
+      "5. Mache kleine Richtungswechsel.",
+      "6. Schaue zwischendurch nach vorne."
+    ],
+
+    "5 Min. Passübungen": [
+      "1. Stelle dich vor eine Wand oder einen Partner.",
+      "2. Spiele einen kurzen Pass mit rechts.",
+      "3. Nimm den Rückpass kontrolliert an.",
+      "4. Spiele den nächsten Pass mit links.",
+      "5. Konzentriere dich auf Genauigkeit."
+    ],
+
+    "10 Min. Ballgefühl": [
+      "1. Stelle dich mit dem Ball vor dich hin.",
+      "2. Rolle den Ball mit der Fußsohle vor und zurück.",
+      "3. Tippe den Ball abwechselnd mit beiden Innenseiten an.",
+      "4. Hebe den Kopf regelmäßig.",
+      "5. Wechsle zwischen langsamen und etwas schnelleren Kontakten."
+    ],
+
+    "10 Min. linke Fußpässe": [
+      "1. Stelle dich vor eine Wand.",
+      "2. Lege den Ball vor deinen linken Fuß.",
+      "3. Stelle den rechten Fuß neben den Ball.",
+      "4. Spiele den Ball mit der linken Innenseite.",
+      "5. Nimm den Rückpass kontrolliert an.",
+      "6. Wiederhole die Übung mit ruhigen, genauen Pässen."
+    ],
+
+    "5 Min. Jonglieren": [
+      "1. Halte den Ball mit den Händen vor dir.",
+      "2. Lass ihn auf deinen Fuß fallen.",
+      "3. Spiele ihn mit einem kleinen Kontakt wieder nach oben.",
+      "4. Fange den Ball auf, wenn er herunterkommt.",
+      "5. Versuche danach zwei Kontakte hintereinander.",
+      "6. Übe abwechselnd mit beiden Füßen."
+    ]
   };
-  return anleitungen[task]||
-    "Übe kontrolliert, achte auf eine saubere Technik und mache bei Bedarf eine Pause.";
+
+  return anleitungen[task]
+    ? anleitungen[task].join("\n")
+    : "1. Stelle den Ball und die benötigten Markierungen bereit.\n" +
+      "2. Beginne langsam und kontrolliert.\n" +
+      "3. Achte auf eine saubere Technik.\n" +
+      "4. Wiederhole die Bewegung mehrmals.\n" +
+      "5. Mache bei Bedarf eine Pause.";
 }
 
 function updateStreak(){
