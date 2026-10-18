@@ -144,32 +144,24 @@ document.querySelectorAll("#routine input[type='checkbox'], #after-school input[
     localStorage.setItem(key, cb.checked ? "1" : "0");
   });
 });
+
 const weeklyPlans = [
 {
-  Montag:["Ballgefühl und Dribbling","5 Min. Aufwärmen","10 Min. Dribbling","10 Min. Pässe","5 Min. linker Fuß"],
-  Dienstag:["Individuelles Techniktraining","5 Min. Aufwärmen","10 Min. Ballannahme","10 Min. linker Fuß","10 Min. Dribbling"],
+  Montag:["Linksaußen: Dribbling","5 Min. Aufwärmen","10 Min. Dribbling mit Richtungswechseln","10 Min. 1-gegen-1 Finten üben","5 Min. linker Fuß"],
+  Dienstag:["Ballannahme und Pass","5 Min. Aufwärmen","10 Min. erster Kontakt","10 Min. Wandpässe","10 Min. linker Fuß"],
   Mittwoch:["Vereinstraining","20 Min. locker aufwärmen","Vereinstraining vollständig absolvieren"],
-  Donnerstag:["Individuelles Techniktraining","5 Min. Aufwärmen","10 Min. Passübungen","10 Min. Torschüsse","5 Min. Ballannahme"],
-  Freitag:["Vereinstraining","5 Min. aufwärmen","Vereinstraining vollständig absolvieren"],
-  Samstag:["Tempo und Ballkontrolle","5 Min. Aufwärmen","10 Min. Tempodribbling","10 Min. Ballannahme","10 Min. Torschüsse"],
+  Donnerstag:["Linksaußen: Torschuss","5 Min. Aufwärmen","10 Min. Schüsse mit rechts nach innen ziehen","10 Min. Schussgenauigkeit","5 Min. Ballannahme"],
+  Freitag:["Vereinstraining","5 Min. Aufwärmen","Vereinstraining vollständig absolvieren"],
+  Samstag:["Tempo und Flanken","5 Min. Aufwärmen","10 Min. Tempodribbling","10 Min. Flanken üben","10 Min. Ballkontrolle"],
   Sonntag:["Ruhetag","Erholen und genug schlafen"]
 },
 {
-  Montag:["Dribbling und Wendigkeit","5 Min. Aufwärmen","10 Min. Slalomdribbling","10 Min. Richtungswechsel","5 Min. linker Fuß"],
-  Dienstag:["Ballannahme und Passen","5 Min. Aufwärmen","10 Min. erster Kontakt","10 Min. Wandpässe","10 Min. linker Fuß"],
+  Montag:["Linksaußen: Dribbling schwerer","5 Min. Aufwärmen","10 Min. Slalom mit engem Ballkontakt","10 Min. Finten und Antritt","5 Min. linker Fuß"],
+  Dienstag:["Ballannahme und Pass schwerer","5 Min. Aufwärmen","10 Min. Ballannahme in Bewegung","10 Min. Wandpässe mit links","10 Min. erster Kontakt"],
   Mittwoch:["Vereinstraining","20 Min. locker aufwärmen","Vereinstraining vollständig absolvieren"],
-  Donnerstag:["Schusstechnik","5 Min. Aufwärmen","10 Min. Schussgenauigkeit","10 Min. Ballannahme","5 Min. Passübungen"],
-  Freitag:["Vereinstraining","5 Min. aufwärmen","Vereinstraining vollständig absolvieren"],
-  Samstag:["Tempo und Technik","5 Min. Aufwärmen","10 Min. Tempodribbling","10 Min. Passübungen","10 Min. Ballkontrolle"],
-  Sonntag:["Ruhetag","Erholen und genug schlafen"]
-},
-{
-  Montag:["Ballkontrolle und linker Fuß","5 Min. Aufwärmen","10 Min. Ballgefühl","10 Min. linke Fußpässe","5 Min. Jonglieren"],
-  Dienstag:["Passen und erster Kontakt","5 Min. Aufwärmen","10 Min. Wandpässe","10 Min. Ballannahme","10 Min. Dribbling"],
-  Mittwoch:["Vereinstraining","20 Min. locker aufwärmen","Vereinstraining vollständig absolvieren"],
-  Donnerstag:["Dribbling und Torschuss","5 Min. Aufwärmen","10 Min. Dribbling","10 Min. Schussgenauigkeit","5 Min. linker Fuß"],
-  Freitag:["Vereinstraining","5 Min. aufwärmen","Vereinstraining vollständig absolvieren"],
-  Samstag:["Technik-Mix","5 Min. Aufwärmen","10 Min. Tempodribbling","10 Min. Ballannahme","10 Min. Passübungen"],
+  Donnerstag:["Linksaußen: Torschuss schwerer","5 Min. Aufwärmen","10 Min. nach Richtungswechsel abschließen","10 Min. gezielte Schüsse","5 Min. linker Fuß"],
+  Freitag:["Vereinstraining","5 Min. Aufwärmen","Vereinstraining vollständig absolvieren"],
+  Samstag:["Tempo und Flanken schwerer","5 Min. Aufwärmen","10 Min. Tempodribbling mit Richtungswechsel","10 Min. Flanken aus dem Lauf","10 Min. Ballkontrolle unter Tempo"],
   Sonntag:["Ruhetag","Erholen und genug schlafen"]
 }
 ];
@@ -186,8 +178,10 @@ function getWeekKey(date=new Date()){
 }
 
 const weekKey=getWeekKey();
-const weekNumber=Number(weekKey.split("-W")[1]);
-const plans=weeklyPlans[(weekNumber-1)%weeklyPlans.length];
+const weekNumber=Number(weekKey.split("-W")[
+const trainingPhase = Math.min(Math.floor((weekNumber-1)/2), weeklyPlans.length-1);
+const plans = weeklyPlans[trainingPhase];
+
 
 let day="Montag";
 const days=document.getElementById("days");
