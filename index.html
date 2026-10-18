@@ -177,9 +177,13 @@ function getWeekKey(date=new Date()){
   return year+"-W"+week;
 }
 
-const weekKey=getWeekKey();
-const weekNumber=Number(weekKey.split("-W")[
-const trainingPhase = Math.min(Math.floor((weekNumber-1)/2), weeklyPlans.length-1);
+
+const weekKey = getWeekKey();
+const weekNumber = Number(weekKey.split("-W")[1]);
+const trainingPhase = Math.min(
+  Math.floor((weekNumber - 1) / 2),
+  weeklyPlans.length - 1
+);
 const plans = weeklyPlans[trainingPhase];
 
 
